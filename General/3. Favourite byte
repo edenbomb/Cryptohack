@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+import os
+from pwn import xor
+
+A = '73626960647f6b206821204f21254f7d694f7624662065622127234f726927756d'
+a = bytes.fromhex(A)
+
+while(True):
+    res = xor(a,os.urandom(1))
+    if(res.endswith(b'}')):
+        print(res)
+        break
+    else:
+        continue
