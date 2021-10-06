@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+import sys
+from Crypto.Util.number import *
+
+def logic_xor(a,b):
+    return a ^ b
+
+def logic_xor_Flag(a,b,c,d):
+    return a ^ b ^ c ^ d
+
+def convert_int(a):
+    b = long_to_bytes(a)
+    return b.decode('utf-8')
+
+def convert_b16(a):
+    return int(a, 16)
+
+###############################################################################
+# KEY2 ^ KEY1 = 37dcb292030faa90d07eec17e3b1c6d8daf94c35d4c9191a5e1e
+## KEY2 = 37dcb292030faa90d07eec17e3b1c6d8daf94c35d4c9191a5e1e ^ KEY1
+# KEY2 ^ KEY3 = c1545756687e7573db23aa1c3452a098b71a7fbf0fddddde5fc1
+## KEY3 = c1545756687e7573db23aa1c3452a098b71a7fbf0fddddde5fc1 ^ KEY2
+#FLAG ^ KEY1 ^ KEY3 ^ KEY2 = 04ee9855208a2cd59091d04767ae47963170d1660df7f56f5faf
+## FLAG = 04ee9855208a2cd59091d04767ae47963170d1660df7f56f5faf ^ KEY1 ^ KEY3 ^ KEY2
+
+###############################################################################
+
+KEY1 = 'a6c8b6733c9b22de7bc0253266a3867df55acde8635e19c73313' # base16
+
+### Find Key 2 ###
+A = convert_b16(KEY1)
+#print(A)
+Key2_1 = '37dcb292030faa90d07eec17e3b1c6d8daf94c35d4c9191a5e1e'
+Key2 = logic_xor(A,convert_b16(Key2_1))
+
+### Find Key 3 ###
+Key3_2 = 'c1545756687e7573db23aa1c3452a098b71a7fbf0fddddde5fc1'
+Key3 = logic_xor(Key2,convert_b16(Key3_2))
+
+
+### FLAG ###
+P_FLAG = '04ee9855208a2cd59091d04767ae47963170d1660df7f56f5faf'
+FLAG = logic_xor_Flag(A,Key2,Key3,convert_b16(P_FLAG))
+
+print("Here is your flag: "+ convert_int(FLAG))
