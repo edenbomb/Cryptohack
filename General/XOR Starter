@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import sys
+from Crypto.Util.number import *
+
+# A = 'label' --> for loop 'label' and ^ each character
+# B = 13 --> bit
+# C = A ^ B --> convert back to sting
+
+def logic_xor(a,b):
+    return a ^ b
+
+def convert_string(a):
+    return bytes_to_long(bytes(a, 'utf-8'))
+
+A = 'label'
+test = []
+
+for i in A:
+    a = convert_string(i)
+    b = long_to_bytes(logic_xor(a,13))
+    c = b.decode('utf-8')
+    test.append(c)
+
+print("Here is your flag: "+"crypto{"+''.join(test)+"}")
